@@ -47,8 +47,8 @@ public class ConfigManager {
      * @param <T> Type of config class to load
      */
     public static <T> T loadConfigFromResources(String fileName, Class<T> cls){
-        ClassLoader classLoader = cls.getClassLoader();
-        URL r = classLoader.getResource(fileName);
+//        ClassLoader classLoader = cls.getClassLoader();
+        URL r = cls.getResource(fileName);
         assert r != null;
         File f = new File(r.getFile());
 

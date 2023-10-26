@@ -1,10 +1,9 @@
-import com.pat_eichler.config.ConfigManager;
+package com.pat_eichler.config;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +26,7 @@ public class ConfigManagerTest {
     @Test
     public void testLoadPartialConfig(){
         RuntimeException exception = assertThrows(RuntimeException.class, () -> ConfigManager.loadConfigFromResources("examplePartial.json", ExampleSettings.class));
-        assertEquals("Field not set: ExampleSettings.testVar2", exception.getMessage());
+        assertEquals("Field not set: com.pat_eichler.config.ExampleSettings.testVar2", exception.getMessage());
     }
 
     /**
@@ -64,7 +63,7 @@ public class ConfigManagerTest {
     @Test
     public void testLoadNestedPartialConfig(){
         RuntimeException exception = assertThrows(RuntimeException.class, () -> ConfigManager.loadConfigFromResources("exampleNestedPartial.json", ExampleNestedSettings.class));
-        assertEquals("Field not set: ExampleNestedSettings.B.testBool", exception.getMessage());
+        assertEquals("Field not set: com.pat_eichler.config.ExampleNestedSettings.B.testBool", exception.getMessage());
     }
 
     /**

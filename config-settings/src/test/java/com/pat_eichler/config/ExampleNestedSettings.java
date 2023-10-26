@@ -1,3 +1,5 @@
+package com.pat_eichler.config;
+
 import com.pat_eichler.config.ConfigClass;
 
 @ConfigClass
