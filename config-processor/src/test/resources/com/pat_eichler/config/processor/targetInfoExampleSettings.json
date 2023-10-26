@@ -1,5 +1,5 @@
 {
-  "ExampleSettings": {
+  "ExampleInfoSettings": {
     "testVar": {
       "type": "Integer",
       "default": 5,

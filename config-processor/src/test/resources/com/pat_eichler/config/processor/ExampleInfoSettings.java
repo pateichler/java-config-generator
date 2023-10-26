@@ -3,7 +3,7 @@ import com.pat_eichler.config.processor.ConfigProperty;
 import com.pat_eichler.config.processor.ProcessConfig;
 
 @ConfigClass @ProcessConfig(infoFileName = "testConfig.json")
-class ExampleSettings{
+class ExampleInfoSettings{
     @ConfigProperty(defualtValue = "5", comment = "This is a test variable.")
     public Integer testVar;
 

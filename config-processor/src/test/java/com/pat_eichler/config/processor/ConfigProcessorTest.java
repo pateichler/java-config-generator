@@ -16,6 +16,12 @@ import static com.google.testing.compile.CompilationSubject.assertThat;
 import static com.google.testing.compile.Compiler.javac;
 
 public class ConfigProcessorTest {
+
+    Compilation compileFile(String fileName){
+        return  javac()
+                        .withProcessors(new ConfigProcessor())
+                        .compile(JavaFileObjects.forResource(Objects.requireNonNull(ConfigProcessorTest.class.getResource(fileName))));
+    }
     void checkIfMatchFile(Compilation compilation, String outputPackageName, String outputFileName, String targetFileName, boolean isDefault) throws IOException {
         URL u = ConfigProcessorTest.class.getResource(targetFileName);
         assert u != null;
@@ -29,46 +35,23 @@ public class ConfigProcessorTest {
 
     @Test
     public void testDefaultExampleSettings() throws IOException {
-        URL u = ConfigProcessorTest.class.getResource("targetDefaultExampleSettings.json");
-        assert u != null;
-        File targetFile = new File(u.getFile());
-        String targetText = new String(Files.readAllBytes(targetFile.toPath()));
-
-        Compilation compilation =
-                javac()
-                        .withProcessors(new ConfigProcessor())
-                        .compile(JavaFileObjects.forResource(Objects.requireNonNull(ConfigProcessorTest.class.getResource("ExampleSettings.java"))));
+        Compilation compilation = compileFile("ExampleSettings.java");
         assertThat(compilation).succeeded();
-        assertThat(compilation)
-                .generatedFile(StandardLocation.CLASS_OUTPUT, "ExampleSettings", "testConfig.json")
-                .contentsAsUtf8String().isEqualTo(targetText);
+
+        checkIfMatchFile(compilation, "ExampleSettings", "testConfig.json", "targetDefaultExampleSettings.json", true);
     }
 
     @Test
     public void testDefaultExampleInfoSettings() throws IOException {
-        URL u = ConfigProcessorTest.class.getResource("targetInfoExampleSettings.json");
-        assert u != null;
-        File targetFile = new File(u.getFile());
-        String targetText = new String(Files.readAllBytes(targetFile.toPath()));
-
-        Compilation compilation =
-                javac()
-                        .withProcessors(new ConfigProcessor())
-                        .compile(JavaFileObjects.forResource(Objects.requireNonNull(ConfigProcessorTest.class.getResource("ExampleInfoSettings.java"))));
+        Compilation compilation = compileFile("ExampleInfoSettings.java");
         assertThat(compilation).succeeded();
-        assertThat(compilation)
-                .generatedFile(StandardLocation.SOURCE_OUTPUT, "ExampleSettings", "testConfig.json")
-                .contentsAsUtf8String().isEqualTo(targetText);
+
+        checkIfMatchFile(compilation, "ExampleInfoSettings", "testConfig.json", "targetInfoExampleSettings.json", false);
     }
 
     @Test
     public void testExampleNestedSettings() throws IOException {
-
-
-        Compilation compilation =
-                javac()
-                        .withProcessors(new ConfigProcessor())
-                        .compile(JavaFileObjects.forResource(Objects.requireNonNull(ConfigProcessorTest.class.getResource("ExampleNestedSettings.java"))));
+        Compilation compilation = compileFile("ExampleNestedSettings.java");
         assertThat(compilation).succeeded();
 
         checkIfMatchFile(compilation, "ExampleNestedSettings", "testConfig.json", "targetDefaultExampleNestedSettings.json", true);
