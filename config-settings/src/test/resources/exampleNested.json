@@ -1,0 +1,13 @@
+{
+  "a": {
+    "testString": "test",
+    "testInt": 2,
+    "c": {
+      "testDouble": 4.0
+    }
+  },
+  "b": {
+    "testInt": 3,
+    "testBool": true
+  }
+}
