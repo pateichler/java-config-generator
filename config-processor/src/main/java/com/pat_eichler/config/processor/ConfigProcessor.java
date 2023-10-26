@@ -153,7 +153,8 @@ public class ConfigProcessor  extends AbstractProcessor {
 
             String clsName = cls.asType().toString();
             if(classList.contains(clsName)){
-                processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Circular settings import for class: " + clsName, cls);
+                String circularImport = String.join(" -> ", classList) + " -> " + classList.get(0);
+                processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Circular settings import: " + circularImport, cls);
                 return;
             }
 

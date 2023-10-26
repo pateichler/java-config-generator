@@ -58,4 +58,11 @@ public class ConfigProcessorTest {
         checkIfMatchFile(compilation, "ExampleNestedSettings", "testConfig.json", "targetInfoExampleNestedSettings.json", false);
 
     }
+
+    @Test
+    public void testCircularImport()  {
+        Compilation compilation = compileFile("ExampleCircularImport.java");
+        assertThat(compilation).hadErrorContaining("ExampleCircularImport -> ExampleCircularImport.A -> ExampleCircularImport.A.B -> ExampleCircularImport");
+        assertThat(compilation).failed();
+    }
 }
