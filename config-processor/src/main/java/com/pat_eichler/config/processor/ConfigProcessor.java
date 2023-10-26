@@ -103,7 +103,6 @@ public class ConfigProcessor  extends AbstractProcessor {
         }
 
         if (!type.startsWith("java.lang")){
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Field kind: " + e.getKind());
             processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Unknown data type: " + type);
             return s;
         }
