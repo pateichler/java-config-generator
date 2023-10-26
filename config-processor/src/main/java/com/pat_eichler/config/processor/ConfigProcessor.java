@@ -162,7 +162,10 @@ public class ConfigProcessor  extends AbstractProcessor {
             newList.add(clsName);
 
             //Loop through the config settings elements
-            for(Element field : cls.getEnclosedElements().stream().filter(f -> f.getKind() == ElementKind.FIELD).collect(Collectors.toList())) {
+            for(Element field : cls.getEnclosedElements().stream().filter(f -> f.getKind() == ElementKind.FIELD).toList()) {
+                if(!isElementSerializable(field))
+                    continue;
+
                 Element fieldCls = processingEnv.getTypeUtils().asElement(field.asType());
                 if (fieldCls != null && fieldCls.getAnnotation(ConfigClass.class) != null)
                     processClass(fieldCls, out, newList, defaults);
@@ -170,7 +173,7 @@ public class ConfigProcessor  extends AbstractProcessor {
                     processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Can't currently process enums " + fieldCls.getSimpleName());
                     for(Element option : fieldCls.getEnclosedElements())
                         processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Enum option " + option.getSimpleName() + ": " + option.getKind());
-                }else if(isElementSerializable(field))
+                }else
                     writeElement(field, out, defaults);
             }
 

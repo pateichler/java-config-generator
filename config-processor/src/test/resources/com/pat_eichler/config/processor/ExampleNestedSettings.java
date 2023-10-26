@@ -6,6 +6,7 @@ import com.pat_eichler.config.processor.ProcessConfig;
 public class ExampleNestedSettings {
     public A a;
     public B b;
+    public static ExampleNestedSettings _instance;
 
     @ConfigClass
     public static class A{
