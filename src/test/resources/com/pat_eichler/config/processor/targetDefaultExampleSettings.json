@@ -1,6 +1,4 @@
 {
-  "ExampleSettings": {
-    "testVar": 5,
-    "testVar2": false
-  }
+  "testVar": 5,
+  "testVar2": false
 }

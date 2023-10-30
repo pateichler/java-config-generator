@@ -1,32 +1,30 @@
 {
-  "ExampleNestedSettings": {
-    "A": {
-      "testString": {
-        "type": "String",
-        "default": ""
-      },
-      "testInt": {
-        "type": "Integer",
-        "default": 0
-      },
-      "C": {
-        "testDouble": {
-          "type": "Double",
-          "default": 3.1415,
-          "comment": "This is a test Double."
-        }
-      }
+  "a": {
+    "testString": {
+      "type": "String",
+      "default": ""
     },
-    "B": {
-      "testInt": {
-        "type": "Integer",
-        "default": 0
-      },
-      "testBool": {
-        "type": "Boolean",
-        "default": true,
-        "comment": "This is a test Boolean."
+    "testInt": {
+      "type": "Integer",
+      "default": 0
+    },
+    "c": {
+      "testDouble": {
+        "type": "Double",
+        "default": 3.1415,
+        "comment": "This is a test Double."
       }
+    }
+  },
+  "b": {
+    "testInt": {
+      "type": "Integer",
+      "default": 0
+    },
+    "testBool": {
+      "type": "Boolean",
+      "default": true,
+      "comment": "This is a test Boolean."
     }
   }
 }

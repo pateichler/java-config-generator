@@ -146,8 +146,8 @@ public class ConfigProcessor  extends AbstractProcessor {
 
     void processClass(Element cls, JsonWriter out, LinkedList<String> classList, boolean defaults){
         try {
-            out.name(cls.getSimpleName().toString());
-            out.beginObject();
+//            out.name(cls.getSimpleName().toString());
+//            out.beginObject();
 
             String clsName = cls.asType().toString();
             if(classList.contains(clsName)){
@@ -165,9 +165,12 @@ public class ConfigProcessor  extends AbstractProcessor {
                     continue;
 
                 Element fieldCls = processingEnv.getTypeUtils().asElement(field.asType());
-                if (fieldCls != null && fieldCls.getAnnotation(ConfigClass.class) != null)
+                if (fieldCls != null && fieldCls.getAnnotation(ConfigClass.class) != null) {
+                    out.name(field.getSimpleName().toString());
+                    out.beginObject();
                     processClass(fieldCls, out, newList, defaults);
-                else if(fieldCls != null && fieldCls.getKind() == ElementKind.ENUM) {
+                    out.endObject();
+                }else if(fieldCls != null && fieldCls.getKind() == ElementKind.ENUM) {
                     processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Can't currently process enums " + fieldCls.getSimpleName());
                     for(Element option : fieldCls.getEnclosedElements())
                         processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Enum option " + option.getSimpleName() + ": " + option.getKind());
@@ -175,7 +178,7 @@ public class ConfigProcessor  extends AbstractProcessor {
                     writeElement(field, out, defaults);
             }
 
-            out.endObject();
+//            out.endObject();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

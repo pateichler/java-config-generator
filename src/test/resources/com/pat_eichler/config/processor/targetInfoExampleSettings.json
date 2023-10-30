@@ -1,14 +1,12 @@
 {
-  "ExampleInfoSettings": {
-    "testVar": {
-      "type": "Integer",
-      "default": 5,
-      "comment": "This is a test variable."
-    },
-    "testVar2": {
-      "type": "Boolean",
-      "default": false,
-      "comment": "This is another test variable."
-    }
+  "testVar": {
+    "type": "Integer",
+    "default": 5,
+    "comment": "This is a test variable."
+  },
+  "testVar2": {
+    "type": "Boolean",
+    "default": false,
+    "comment": "This is another test variable."
   }
 }

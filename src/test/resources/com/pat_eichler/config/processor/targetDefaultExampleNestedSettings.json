@@ -1,15 +1,13 @@
 {
-  "ExampleNestedSettings": {
-    "A": {
-      "testString": "",
-      "testInt": 0,
-      "C": {
-        "testDouble": 3.1415
-      }
-    },
-    "B": {
-      "testInt": 0,
-      "testBool": true
+  "a": {
+    "testString": "",
+    "testInt": 0,
+    "c": {
+      "testDouble": 3.1415
     }
+  },
+  "b": {
+    "testInt": 0,
+    "testBool": true
   }
 }
