@@ -1,6 +1,8 @@
 package com.pat_eichler.config.processor;
 
 import com.google.testing.compile.Compilation;
+import com.google.testing.compile.CompilationSubject;
+import com.google.testing.compile.Compiler;
 import com.google.testing.compile.JavaFileObjects;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +20,7 @@ import static com.google.testing.compile.Compiler.javac;
 public class ConfigProcessorTest {
 
     Compilation compileFile(String fileName){
-        return  javac()
+        return  Compiler.javac()
                         .withProcessors(new ConfigProcessor())
                         .compile(JavaFileObjects.forResource(Objects.requireNonNull(ConfigProcessorTest.class.getResource(fileName))));
     }
@@ -28,7 +30,7 @@ public class ConfigProcessorTest {
         File targetFile = new File(u.getFile());
         String targetText = new String(Files.readAllBytes(targetFile.toPath()));
 
-        assertThat(compilation)
+        CompilationSubject.assertThat(compilation)
                 .generatedFile(isDefault ? StandardLocation.CLASS_OUTPUT : StandardLocation.SOURCE_OUTPUT, outputPackageName, outputFileName)
                 .contentsAsUtf8String().isEqualTo(targetText);
     }
@@ -36,7 +38,7 @@ public class ConfigProcessorTest {
     @Test
     public void testDefaultExampleSettings() throws IOException {
         Compilation compilation = compileFile("ExampleSettings.java");
-        assertThat(compilation).succeeded();
+        CompilationSubject.assertThat(compilation).succeeded();
 
         checkIfMatchFile(compilation, "ExampleSettings", "testConfig.json", "targetDefaultExampleSettings.json", true);
     }
@@ -44,7 +46,7 @@ public class ConfigProcessorTest {
     @Test
     public void testDefaultExampleInfoSettings() throws IOException {
         Compilation compilation = compileFile("ExampleInfoSettings.java");
-        assertThat(compilation).succeeded();
+        CompilationSubject.assertThat(compilation).succeeded();
 
         checkIfMatchFile(compilation, "ExampleInfoSettings", "testConfig.json", "targetInfoExampleSettings.json", false);
     }
@@ -52,7 +54,7 @@ public class ConfigProcessorTest {
     @Test
     public void testExampleNestedSettings() throws IOException {
         Compilation compilation = compileFile("ExampleNestedSettings.java");
-        assertThat(compilation).succeeded();
+        CompilationSubject.assertThat(compilation).succeeded();
 
         checkIfMatchFile(compilation, "ExampleNestedSettings", "testConfig.json", "targetDefaultExampleNestedSettings.json", true);
         checkIfMatchFile(compilation, "ExampleNestedSettings", "testConfig.json", "targetInfoExampleNestedSettings.json", false);
@@ -62,7 +64,7 @@ public class ConfigProcessorTest {
     @Test
     public void testCircularImport()  {
         Compilation compilation = compileFile("ExampleCircularImport.java");
-        assertThat(compilation).hadErrorContaining("ExampleCircularImport -> ExampleCircularImport.A -> ExampleCircularImport.A.B -> ExampleCircularImport");
-        assertThat(compilation).failed();
+        CompilationSubject.assertThat(compilation).hadErrorContaining("ExampleCircularImport -> ExampleCircularImport.A -> ExampleCircularImport.A.B -> ExampleCircularImport");
+        CompilationSubject.assertThat(compilation).failed();
     }
 }
